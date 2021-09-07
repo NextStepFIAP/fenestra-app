@@ -1,0 +1,6 @@
+Escopo do Projeto QA: https://docs.google.com/document/d/1KTxMiHtEtgPsPbzEeKTFAI0lo9xkDWew/edit
+Backlog QA: https://docs.google.com/document/d/19iHUEWCF-QzChy8Xx5E0Fr82aTZ63JMi/edit
+Requisitos funcionais e não funcionais: https://docs.google.com/document/d/1BFOUQ4prds5oc9u3Eq9p4iw9-4CzZMLxtwVpfdp4_qw/edit
+Métodos HTTP: https://docs.google.com/document/d/1hxPQDG_v5AECnd04Ws0MuAxfoBriimeb17hpSHe7rAk/edit
+
+colocar o que cada matéria pede também aqui abaixo:
