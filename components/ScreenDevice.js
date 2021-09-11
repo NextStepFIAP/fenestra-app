@@ -6,7 +6,7 @@ import disconnectedImg from "../assets/deviceDisconnected.png";
 import connectedImg from "../assets/deviceConnected.png";
 import connectionImg from "../assets/connection.png";
 
-export default function ScreenDevice() {
+export default function ScreenDevice({ navigation }) {
   const [img, setImg] = useState(magnifierImg);
   const [device, setDevice] = useState(null);
   const [status, setStatus] = useState(null);
@@ -32,7 +32,7 @@ export default function ScreenDevice() {
         setStatus("Conectado");
         setStage("Desconectar");
         break;
-      
+
       case "Desconectar":
         setImg(magnifierImg);
         setDevice(null);
@@ -50,6 +50,14 @@ export default function ScreenDevice() {
       <View>
         <Image style={styles.img} source={img} />
       </View>
+{/* 
+      <TouchableOpacity
+        style={{ flexDirection: "row" }}
+        onPress={() => navigation.navigate("ScreenMain")}
+      >
+        <Text>Voltar</Text>
+      </TouchableOpacity> */}
+
 
       <View style={styles.containerDeviceInfo}>
         <View>

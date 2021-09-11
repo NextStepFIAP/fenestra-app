@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 import * as RootNavigation from './RootNavigation';
 
-export default function ScreenMain() {
+export default function ScreenMain({navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.titlePage}>FENESTRA</Text>
