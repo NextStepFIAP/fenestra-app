@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Switch, Text, TouchableOpacity } from "react-native";
 
-export default function ScreenRoutine() {
+export default function ScreenRoutine({navigation}) {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
@@ -12,7 +12,7 @@ export default function ScreenRoutine() {
         <Text style={styles.optionText}>Fechar janela quando chover</Text>
         <Switch
           trackColor={{ false: "#2c2c2c", true: "#a3a3a3" }}
-          thumbColor={isEnabled ? "red" : "#f4f3f4"}
+          thumbColor={isEnabled ? "#E2C792" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
           value={isEnabled}
@@ -24,7 +24,7 @@ export default function ScreenRoutine() {
         <Text style={styles.optionText}>Enviar notificações quando chover</Text>
         <Switch
           trackColor={{ false: "#2c2c2c", true: "#a3a3a3" }}
-          thumbColor={isEnabled ? "red" : "#f4f3f4"}
+          thumbColor={isEnabled ? "#E2C792" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
           value={isEnabled}
@@ -35,7 +35,7 @@ export default function ScreenRoutine() {
         <Text style={styles.optionText}>Enviar log de erros para desenvolvedor</Text>
         <Switch
           trackColor={{ false: "#2c2c2c", true: "#a3a3a3" }}
-          thumbColor={isEnabled ? "red" : "#f4f3f4"}
+          thumbColor={isEnabled ? "#E2C792" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
           value={isEnabled}
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#50505a",
     alignItems: "center",
-    padding: 25,
+    padding: 16,
   },
 
   containerOption:{

@@ -10,13 +10,13 @@ export default function ScreenMain({navigation}) {
 
       <View style={styles.containerButtons}>
         <TouchableOpacity style={styles.redirectButton}
-          onPress={() => RootNavigation.navigate('Device')}
+          onPress={() => navigation.navigate("ScreenDevice")}
         >
           <Text style={styles.redirectButtonText}>Listar Dispositivos</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.redirectButton}
-          onPress={() => RootNavigation.navigate('Rotinas')}
+          onPress={() => navigation.navigate("ScreenRoutine")}
         >
           <Text style={styles.redirectButtonText}>Rotinas</Text>
         </TouchableOpacity>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#50505a",
     alignItems: "center",
-    padding: 25,
+    padding: 16,
   },
 
   titlePage: {
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
 
   redirectButtonText: {
-    fontWeight: 700,
+    fontWeight: "700",
     textTransform: "uppercase",
   },
 });

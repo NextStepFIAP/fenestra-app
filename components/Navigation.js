@@ -5,9 +5,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
-import ScreenMain from "./components/ScreenMain";
-import ScreenDevice from "./components/ScreenDevice";
-import ScreenRoutine from "./components/ScreenRoutine";
+import ScreenMain from "./ScreenMain";
+import ScreenDevice from "./ScreenDevice";
+import ScreenRoutine from "./ScreenRoutine";
 
 export default function Navegacao() {
   return (
@@ -16,28 +16,33 @@ export default function Navegacao() {
         initialRouteName="ScreenMain"
         screenOptions={{
           headerStyle: {
-            backgroundColor: "#ED145B",
+            backgroundColor: "#2A2B37",
+            padding: 0,
+            textAlign: "center",
           },
-          headerTintColor: "#fff",
+          headerTintColor: "#E2C792",
           headerTitleStyle: {
-            fontWeight: "bold",
+            // fontWeight: "bold",
+            textTransform: 'capitalize',
+            textAlign: "center",
           },
+
         }}
       >
         <Stack.Screen
           name="ScreenMain"
           component={ScreenMain}
-          options={{ title: "Início" }}
+          options={{ title: "INÍCIO" }}
         />
         <Stack.Screen
           name="ScreenDevice"
           component={ScreenDevice}
-          options={({ route }) => ({ title: route.params.item.nome })}
+          options={{ title: "DISPOSITIVOS" }}
         />
         <Stack.Screen
           name="ScreenRoutine"
           component={ScreenRoutine}
-          options={{ title: "Início" }}
+          options={{ title: "ROTINAS" }}
         />
       </Stack.Navigator>
       <StatusBar barStyle="default" />

@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Image, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Alert,
+  Image,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 import magnifierImg from "../assets/magnifier.png";
 import disconnectedImg from "../assets/deviceDisconnected.png";
@@ -11,6 +18,7 @@ export default function ScreenDevice({ navigation }) {
   const [device, setDevice] = useState(null);
   const [status, setStatus] = useState(null);
   const [stage, setStage] = useState("Pesquisar");
+  const [window, setWindow] = useState("Fechar");
 
   const handleStage = () => {
     switch (stage) {
@@ -45,19 +53,26 @@ export default function ScreenDevice({ navigation }) {
     }
   };
 
+  const handleCloseWindow = () => {
+    if (window === "Fechar") {
+      setWindow("Abrir");
+    } else {
+      setWindow("Fechar");
+    }
+
+    Alert.alert(
+      `${window == "Fechar" ? "Fechando Janela" : "Abrindo Janela"}`,
+      "", // <- this part is optional, you can pass an empty string
+      [{ text: "OK", onPress: () => console.log("OK") }],
+      { cancelable: false }
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View>
         <Image style={styles.img} source={img} />
       </View>
-{/* 
-      <TouchableOpacity
-        style={{ flexDirection: "row" }}
-        onPress={() => navigation.navigate("ScreenMain")}
-      >
-        <Text>Voltar</Text>
-      </TouchableOpacity> */}
-
 
       <View style={styles.containerDeviceInfo}>
         <View>
@@ -73,15 +88,37 @@ export default function ScreenDevice({ navigation }) {
           </Text>
         </View>
 
-        <View>
-          <Text style={styles.infoLineText}>
-            Status: {status ? status : "Não encontrado"}.
+        <View style={styles.statusContainer}>
+          <Text style={styles.statusLabel}>Status: </Text>
+          <Text
+            style={
+              ([styles.infoLineText],
+              status == "Desconectado"
+                ? { color: "#000" }
+                : status == "Disponível"
+                ? { color: "#fff", fontWeight: "700" }
+                : status == "Conectado"
+                ? { color: "#E2C792", fontWeight: "700" }
+                : null)
+            }
+          >
+            {status ? status : "Não encontrado"}.
           </Text>
         </View>
       </View>
 
       <TouchableOpacity onPress={handleStage} style={styles.btnMainAction}>
         <Text style={styles.btnMainActionText}>{stage}</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={handleCloseWindow}
+        style={[
+          styles.btnCloseWindow,
+          status == "Conectado" ?  styles.btnCloseWindowVisible : styles.btnCloseWindowHidden,
+        ]}
+      >
+        <Text style={styles.btnCloseWindowText}>{window} Janela</Text>
       </TouchableOpacity>
     </View>
   );
@@ -92,7 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#50505a",
     alignItems: "center",
-    padding: 25,
+    padding: 16,
   },
 
   img: {
@@ -119,6 +156,7 @@ const styles = StyleSheet.create({
 
   btnMainAction: {
     marginTop: 50,
+    marginBottom: 30,
     paddingVertical: 5,
     paddingHorizontal: 30,
     backgroundColor: "#000",
@@ -132,8 +170,39 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
 
+  btnCloseWindow: {
+    paddingVertical: 5,
+    paddingHorizontal: 30,
+    backgroundColor: "#fff",
+    borderColor: "#E2C792",
+    borderWidth: 2,
+    borderRadius: 4,
+  },
+
+  btnCloseWindowText: {
+    color: "#000",
+    textTransform: "uppercase",
+  },
+
+  btnCloseWindowVisible:{
+    display: "flex"
+  },
+
+  btnCloseWindowHidden:{
+    display: "none"
+  },
+
+  statusContainer:{
+    display: "flex",
+    flexDirection: "row"
+  },
+
   infoLineText: {
     color: "#fff",
     marginBottom: 5,
   },
+
+  statusLabel:{
+    color: "#fff"
+  }
 });
