@@ -1,9 +1,10 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-import * as RootNavigation from './RootNavigation';
+export default function ScreenMain({route, navigation},{ onLogout }) {
+  const { user } = route.params;
 
-export default function ScreenMain({navigation}) {
+  console.log(route.params)
   return (
     <View style={styles.container}>
       <Text style={styles.titlePage}>FENESTRA</Text>
@@ -24,6 +25,10 @@ export default function ScreenMain({navigation}) {
         <TouchableOpacity style={styles.redirectButton}>
           <Text style={styles.redirectButtonText}>Ajuda</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.redirectButton} onPress={() => navigation.navigate("ScreenLogin", {logout: !route.params.logout})}>
+          <Text style={styles.redirectButtonText}>Sair</Text>
+        </TouchableOpacity>
+
       </View>
     </View>
   );

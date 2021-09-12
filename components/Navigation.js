@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
+import ScreenLogin from "./ScreenLogin";
 import ScreenMain from "./ScreenMain";
 import ScreenDevice from "./ScreenDevice";
 import ScreenRoutine from "./ScreenRoutine";
@@ -13,26 +14,28 @@ export default function Navegacao() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="ScreenMain"
+        initialRouteName="ScreenLogin"
         screenOptions={{
           headerStyle: {
             backgroundColor: "#2A2B37",
-            padding: 0,
-            textAlign: "center",
           },
           headerTintColor: "#E2C792",
           headerTitleStyle: {
-            // fontWeight: "bold",
-            textTransform: 'capitalize',
+            textTransform: "capitalize",
             textAlign: "center",
           },
-
         }}
       >
         <Stack.Screen
+          name="ScreenLogin"
+          component={ScreenLogin}
+          options={{ title: "LOGIN" }}
+        />
+
+        <Stack.Screen
           name="ScreenMain"
           component={ScreenMain}
-          options={{ title: "INÍCIO" }}
+          options={{ title: "INÍCIO", headerLeft: () => (null) }}
         />
         <Stack.Screen
           name="ScreenDevice"
