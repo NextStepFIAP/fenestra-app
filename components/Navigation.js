@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
+import Login from "./Login";
+import Register from "./Register";
 import ScreenLogin from "./ScreenLogin";
 import ScreenMain from "./ScreenMain";
 import ScreenDevice from "./ScreenDevice";
@@ -14,7 +16,7 @@ export default function Navegacao() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="ScreenLogin"
+        initialRouteName="ScreenMain"
         screenOptions={{
           headerStyle: {
             backgroundColor: "#2A2B37",
@@ -27,15 +29,19 @@ export default function Navegacao() {
         }}
       >
         <Stack.Screen
-          name="ScreenLogin"
-          component={ScreenLogin}
+          name="Login"
+          component={Login}
           options={{ title: "LOGIN" }}
         />
-
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ title: "CADASTRO" }}
+        />
         <Stack.Screen
           name="ScreenMain"
           component={ScreenMain}
-          options={{ title: "INÍCIO", headerLeft: () => (null) }}
+          options={{ title: "INÍCIO", headerLeft: () => null }}
         />
         <Stack.Screen
           name="ScreenDevice"

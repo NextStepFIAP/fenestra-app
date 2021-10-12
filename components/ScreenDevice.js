@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { getComponents,addComponent } from "../util/componentApi";
+import { getLogs, addLog } from "../util/logApi";
+
 import magnifierImg from "../assets/magnifier.png";
 import disconnectedImg from "../assets/deviceDisconnected.png";
 import connectedImg from "../assets/deviceConnected.png";
@@ -21,10 +24,16 @@ export default function ScreenDevice({ navigation }) {
   const [window, setWindow] = useState("Fechar");
 
   const handleStage = () => {
+    let tempName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+
     switch (stage) {
       case "Pesquisar":
+        
+        getComponents()
+        getLogs()
+
         setImg(disconnectedImg);
-        setDevice("SA655S52EXEMPLO");
+        setDevice(tempName);
         setStatus("Desconectado");
         setStage("Conectar");
         break;
@@ -36,6 +45,9 @@ export default function ScreenDevice({ navigation }) {
         break;
 
       case "Adicionar":
+
+        addComponent(tempName)
+
         setImg(connectedImg);
         setStatus("Conectado");
         setStage("Desconectar");
@@ -56,8 +68,13 @@ export default function ScreenDevice({ navigation }) {
   const handleCloseWindow = () => {
     if (window === "Fechar") {
       setWindow("Abrir");
+
+      addLog(`${Date.now}`,"Janela Fechada")
+
     } else {
       setWindow("Fechar");
+
+      addLog(`${Date.now}`,"Janela Aberta")
     }
 
     Alert.alert(

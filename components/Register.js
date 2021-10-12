@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,24 +7,38 @@ import {
   View,
 } from "react-native";
 
-import {  getUsers, getUser, addUser, updateUser, deleteUser } from '../util/userApi';
+import { addUser } from "../util/userApi";
 
-export default function SignIn({ onEnter, onSignUp }) {
+export default function Login({ route, navigation }) {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() =>{
-    async function fetchData() {
-      await getUsers();
+  const handleEnter = () => {
+    if (name.length <= 0 || email.length <= 0 || password.length <= 0) {
+      Alert.alert("Erro", "Algum campo está vazio!");
+      return;
     }
-    fetchData();
-  })
+
+    else{
+      addUser(email,name,password)
+      navigation.navigate('ScreenMain');
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.titlePage}>FENESTRA</Text>
 
       <View style={styles.formContainer}>
+        <Text style={styles.labelText}>Nome:</Text>
+        <TextInput
+          placeholder="Nome"
+          value={name}
+          onChangeText={setName}
+          style={styles.input}
+        />
+
         <Text style={styles.labelText}>Email:</Text>
         <TextInput
           placeholder="Email"
@@ -33,21 +47,15 @@ export default function SignIn({ onEnter, onSignUp }) {
           style={styles.input}
         />
 
-        <Text style={styles.labelText}>Senha: </Text>
+        <Text style={styles.labelText}>Senha:</Text>
         <TextInput
           placeholder="Senha"
           value={password}
           onChangeText={setPassword}
           style={styles.input}
         />
-        <TouchableOpacity onPress={() => onEnter(email, password)}>
-          <Text style={styles.button}>Entrar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.signUpButton}
-          onPress={() => onSignUp(true)}
-        >
-          <Text style={styles.signUpButtonText}>Cadastrar</Text>
+        <TouchableOpacity onPress={handleEnter}>
+          <Text style={styles.button}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -91,8 +99,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E2C792",
   },
 
-  labelText:{
-    color: "#fff"
+  labelText: {
+    color: "#fff",
   },
 
   input: {

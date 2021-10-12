@@ -11,10 +11,10 @@ export const getUsers = async () => {
   }
 };
 
-export const getUser = async (id) => {
+export const getUser = async (email) => {
   try {
     const response = await fetch(
-      `https://fenestra-api.herokuapp.com/api/user/${id}`
+      `https://fenestra-api.herokuapp.com/api/user/${email}`
     );
     const json = await response.json();
     console.log(json);
@@ -24,10 +24,10 @@ export const getUser = async (id) => {
   }
 };
 
-export const addUser = async (id, username, password) => {
+export const addUser = async (email, username, password) => {
   let status = 200;
   let data = {
-    id: id,
+    email: email,
     name: username,
     password: password,
   };

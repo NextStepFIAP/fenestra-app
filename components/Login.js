@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,18 +7,20 @@ import {
   View,
 } from "react-native";
 
-import {  getUsers, getUser, addUser, updateUser, deleteUser } from '../util/userApi';
+import {  getUser } from '../util/userApi';
 
-export default function SignIn({ onEnter, onSignUp }) {
+
+export default function Login({ route, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() =>{
-    async function fetchData() {
-      await getUsers();
-    }
-    fetchData();
-  })
+  const handleEnter = () => {
+
+    let user = getUser(email);
+
+    //   Alert.alert("Erro", "Usuário não encontado.");
+
+  };
 
   return (
     <View style={styles.container}>
@@ -40,12 +42,12 @@ export default function SignIn({ onEnter, onSignUp }) {
           onChangeText={setPassword}
           style={styles.input}
         />
-        <TouchableOpacity onPress={() => onEnter(email, password)}>
+        <TouchableOpacity onPress={handleEnter}>
           <Text style={styles.button}>Entrar</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.signUpButton}
-          onPress={() => onSignUp(true)}
+          onPress={() => navigation.navigate("Register")}
         >
           <Text style={styles.signUpButtonText}>Cadastrar</Text>
         </TouchableOpacity>
@@ -91,8 +93,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E2C792",
   },
 
-  labelText:{
-    color: "#fff"
+  labelText: {
+    color: "#fff",
   },
 
   input: {
