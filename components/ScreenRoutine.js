@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { StyleSheet, View, Switch, Text, TouchableOpacity } from "react-native";
 
 export default function ScreenRoutine({navigation}) {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const [isEnabledCloseWindow, setIsEnabledCloseWindow] = useState(false);
+  const [isEnabledSendNotifications, setIsEnabledSendNotifications] = useState(false);
+  const [isEnabledSendErrorsLog, setIsEnabledSendErrorsLog] = useState(false);
+
+  const toggleSwitchCloseWindow = () => setIsEnabledCloseWindow((previousState) => !previousState);
+  const toggleSwitchSendNotifications = () => setIsEnabledSendNotifications((previousState) => !previousState);
+  const toggleSwitchSendErrorsLog = () => setIsEnabledSendErrorsLog((previousState) => !previousState);
 
   return (
     <View style={styles.container}>
@@ -12,10 +17,10 @@ export default function ScreenRoutine({navigation}) {
         <Text style={styles.optionText}>Fechar janela quando chover</Text>
         <Switch
           trackColor={{ false: "#2c2c2c", true: "#a3a3a3" }}
-          thumbColor={isEnabled ? "#E2C792" : "#f4f3f4"}
+          thumbColor={isEnabledCloseWindow ? "#E2C792" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
+          onValueChange={toggleSwitchCloseWindow}
+          value={isEnabledCloseWindow}
         />
       </View>
 
@@ -24,10 +29,10 @@ export default function ScreenRoutine({navigation}) {
         <Text style={styles.optionText}>Enviar notificações quando chover</Text>
         <Switch
           trackColor={{ false: "#2c2c2c", true: "#a3a3a3" }}
-          thumbColor={isEnabled ? "#E2C792" : "#f4f3f4"}
+          thumbColor={isEnabledSendNotifications ? "#E2C792" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
+          onValueChange={toggleSwitchSendNotifications}
+          value={isEnabledSendNotifications}
         />
       </View>
 
@@ -35,10 +40,10 @@ export default function ScreenRoutine({navigation}) {
         <Text style={styles.optionText}>Enviar log de erros para desenvolvedor</Text>
         <Switch
           trackColor={{ false: "#2c2c2c", true: "#a3a3a3" }}
-          thumbColor={isEnabled ? "#E2C792" : "#f4f3f4"}
+          thumbColor={isEnabledSendErrorsLog ? "#E2C792" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
+          onValueChange={toggleSwitchSendErrorsLog}
+          value={isEnabledSendErrorsLog}
         />
       </View>
 

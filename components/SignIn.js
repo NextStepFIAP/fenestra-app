@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,9 +7,18 @@ import {
   View,
 } from "react-native";
 
+import {  getUsers, getUser, addUser, updateUser, deleteUser } from '../util/api';
+
 export default function SignIn({ onEnter, onSignUp }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() =>{
+    async function fetchData() {
+      await getUsers();
+    }
+    fetchData();
+  })
 
   return (
     <View style={styles.container}>
