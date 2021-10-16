@@ -1,101 +1,136 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import ScreenMain from "./ScreenMain";
+import {  getUser } from '../util/userApi';
 
-import { getUsers, setUsers } from "../util/storage";
-import { Alert, TouchableOpacity, StyleSheet, Text } from "react-native";
 
-export default function ScreenLogin({ route, navigation }, {onLogout}) {
+export default function Login({ route, navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  console.log(route.params)
+  const handleEnter = () => {
 
-  const [isSigningUp, setIsSigningUp] = useState(false);
-  const [user, setUser] = useState(null);
-  const [listUser, setListUser] = useState([]);
+    getUser(email).then(data =>{
+      console.log(data)
 
-  useEffect(() => {
-    async function fetchData() {
-      const list = await getUsers();
-      if (list !== null && list.length > 0) {
-        setListUser(list);
+      if(data === undefined || data.error){
+        Alert.alert("Erro", "Dados incorretos!");
+        return
       }
-    }
-    fetchData();
-  }, []);
 
-  const handleEnter = (email, password) => {
-    // verifica se o email e senha sao válidos
-    const usr = listUser.find((e) => {
-      return e.email === email;
-    });
-    if (!usr) {
-      Alert.alert("Erro", "Usuário não encontado.");
-      return;
-    }
-    if (password !== usr.password) {
-      Alert.alert("Erro", "Email e/ou Senha Inválidos.");
-      return;
-    }
-    setUser(usr);
-  };
-
-  const handleRegister = (name, email, password) => {
-    // verifica se já existe um email igual na lista
-    if (listUser.filter((e) => e.email === email).length > 0) {
-      Alert.alert("Erro", "Este email já está cadastrado!");
-      return;
-    }
-    if (name.length <= 0 || email.length <= 0 || password.length <= 0) {
-      Alert.alert("Erro", "Algum campo está vazio!");
-      return;
-    }
-
-    let users = [...listUser];
-    const usr = { name, email, password };
-    users.push(usr);
-    setUsers(users);
-    setListUser(users);
-    setUser(usr);
-    setIsSigningUp(false);
-  };
-
-  if (user === null) {
-    if (isSigningUp) {
-      return <SignUp onRegister={handleRegister} />;
-    } else {
-      return <SignIn onEnter={handleEnter} onSignUp={setIsSigningUp} />;
-    }
-  } else {
-    if(route.params){
-      if(route.params.logout == true){
-        setUser(null)
-
-        route.params.logout = false
+      if(data.email === email && data.password === password){
+        navigation.navigate("ScreenMain")
       }
 
       else{
-        return (
-          <TouchableOpacity onPress={() => navigation.navigate("ScreenMain",  {user, logout: false})}>
-            <Text style={styles.labelText}>Ir para tela principal</Text>
-          </TouchableOpacity>
-        );
+        Alert.alert("Erro", "Dados incorretos!");
       }
-    }
-    else{
-      return (
-        <TouchableOpacity onPress={() => navigation.navigate("ScreenMain",  {user, logout: false})}>
-          <Text style={styles.labelText}>Ir para tela principal</Text>
+    })
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.titlePage}>FENESTRA</Text>
+
+      <View style={styles.formContainer}>
+        <Text style={styles.labelText}>Email:</Text>
+        <TextInput
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          style={styles.input}
+        />
+
+        <Text style={styles.labelText}>Senha: </Text>
+        <TextInput
+          placeholder="Senha"
+          value={password}
+          secureTextEntry={true}
+          onChangeText={setPassword}
+          style={styles.input}
+        />
+        <TouchableOpacity onPress={handleEnter}>
+          <Text style={styles.button}>Entrar</Text>
         </TouchableOpacity>
-      );
-    }
-  }
+        <TouchableOpacity
+          style={styles.signUpButton}
+          onPress={() => navigation.navigate("Register")}
+        >
+          <Text style={styles.signUpButtonText}>Cadastrar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.signUpButton}
+          onPress={() => navigation.navigate("Recover")}
+        >
+          <Text style={styles.signUpButtonText}>Esqueceu sua senha?</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  labelText: {
+  container: {
+    flex: 1,
+    backgroundColor: "#50505a",
+    alignItems: "center",
+    padding: 16,
+  },
+
+  titlePage: {
+    color: "#E2C792",
+    letterSpacing: 2,
+    fontSize: 36,
+    marginBottom: 30,
+  },
+
+  formContainer: {
+    display: "flex",
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "stretch",
+    width: "100%",
+    paddingHorizontal: 30,
+  },
+
+  button: {
+    marginVertical: 20,
+    backgroundColor: "#2A2B37",
+    padding: 10,
+    color: "#E2C792",
+    borderRadius: 4,
+    marginBottom: 20,
     textAlign: "center",
-    fontWeight: "700"
-  }
-})
+    textTransform: "uppercase",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E2C792",
+  },
+
+  labelText: {
+    color: "#fff",
+  },
+
+  input: {
+    alignSelf: "stretch",
+    marginVertical: 10,
+    borderRadius: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    backgroundColor: "#C4C4C4",
+  },
+  signUpButtonText: {
+    textAlign: "center",
+  },
+  signUpButtonText: {
+    color: "#fff",
+    textAlign: "center",
+  },
+});

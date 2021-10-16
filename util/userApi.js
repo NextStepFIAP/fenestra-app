@@ -14,10 +14,9 @@ export const getUsers = async () => {
 export const getUser = async (email) => {
   try {
     const response = await fetch(
-      `https://fenestra-api.herokuapp.com/api/user/${email}`
+      `${uriApiUser}/email/${email}`
     );
     const json = await response.json();
-    console.log(json);
     return json;
   } catch (error) {
     console.log(error);

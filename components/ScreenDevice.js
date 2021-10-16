@@ -33,6 +33,8 @@ export default function ScreenDevice({ navigation }) {
         getLogs()
 
         setImg(disconnectedImg);
+
+        //configurar um modal pra perguntar o nome do componente e então setar aqui e/ou na função da api
         setDevice(tempName);
         setStatus("Desconectado");
         setStage("Conectar");
@@ -69,12 +71,12 @@ export default function ScreenDevice({ navigation }) {
     if (window === "Fechar") {
       setWindow("Abrir");
 
-      addLog(`${Date.now}`,"Janela Fechada")
+      addLog(`${Date.now}`,"Janela fechada por ordem do usuário.")
 
     } else {
       setWindow("Fechar");
 
-      addLog(`${Date.now}`,"Janela Aberta")
+      addLog(`${Date.now}`,"Janela aberta por ordem do usuário.")
     }
 
     Alert.alert(

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Alert,
   StyleSheet,
   Text,
   TextInput,
@@ -7,10 +8,29 @@ import {
   View,
 } from "react-native";
 
-export default function SignUp({ onRegister }) {
-  const [name, setName] = useState("");
+import { addUser } from "../util/userApi";
+
+export default function Login({ route, navigation }) {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleEnter = () => {
+    if (name.length <= 0 || email.length <= 0 || password.length <= 0) {
+      Alert.alert("Erro", "Algum campo está vazio!");
+      return;
+    } else {
+      addUser(email, name, password).then((data) => {
+        if(data.error){
+          Alert.alert("Erro", `${data.error}`);
+        }
+
+        else{
+          navigation.navigate("ScreenMain");
+        }
+      });
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -40,7 +60,7 @@ export default function SignUp({ onRegister }) {
           onChangeText={setPassword}
           style={styles.input}
         />
-        <TouchableOpacity onPress={() => onRegister(name, email, password)}>
+        <TouchableOpacity onPress={handleEnter}>
           <Text style={styles.button}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
