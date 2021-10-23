@@ -16,7 +16,7 @@ export default function Navegacao() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Recover"
+        initialRouteName="Login"
         screenOptions={{
           headerStyle: {
             backgroundColor: "#2A2B37",

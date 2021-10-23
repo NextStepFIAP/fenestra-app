@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { getComponents,addComponent } from "../util/componentApi";
+import { getComponents, addComponent } from "../util/componentApi";
 import { getLogs, addLog } from "../util/logApi";
 
 import magnifierImg from "../assets/magnifier.png";
@@ -24,13 +24,14 @@ export default function ScreenDevice({ navigation }) {
   const [window, setWindow] = useState("Fechar");
 
   const handleStage = () => {
-    let tempName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    let tempName =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15);
 
     switch (stage) {
       case "Pesquisar":
-        
-        getComponents()
-        getLogs()
+        getComponents();
+        getLogs();
 
         setImg(disconnectedImg);
 
@@ -47,8 +48,7 @@ export default function ScreenDevice({ navigation }) {
         break;
 
       case "Adicionar":
-
-        addComponent(tempName)
+        addComponent(tempName);
 
         setImg(connectedImg);
         setStatus("Conectado");
@@ -71,17 +71,16 @@ export default function ScreenDevice({ navigation }) {
     if (window === "Fechar") {
       setWindow("Abrir");
 
-      addLog(`${Date.now}`,"Janela fechada por ordem do usuário.")
-
+      addLog(`${Date.now}`, "Janela fechada por ordem do usuário.");
     } else {
       setWindow("Fechar");
 
-      addLog(`${Date.now}`,"Janela aberta por ordem do usuário.")
+      addLog(`${Date.now}`, "Janela aberta por ordem do usuário.");
     }
 
     Alert.alert(
       `${window == "Fechar" ? "Fechando Janela" : "Abrindo Janela"}`,
-      "", // <- this part is optional, you can pass an empty string
+      "",
       [{ text: "OK", onPress: () => console.log("OK") }],
       { cancelable: false }
     );
@@ -134,7 +133,9 @@ export default function ScreenDevice({ navigation }) {
         onPress={handleCloseWindow}
         style={[
           styles.btnCloseWindow,
-          status == "Conectado" ?  styles.btnCloseWindowVisible : styles.btnCloseWindowHidden,
+          status == "Conectado"
+            ? styles.btnCloseWindowVisible
+            : styles.btnCloseWindowHidden,
         ]}
       >
         <Text style={styles.btnCloseWindowText}>{window} Janela</Text>
@@ -203,17 +204,17 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
 
-  btnCloseWindowVisible:{
-    display: "flex"
-  },
-
-  btnCloseWindowHidden:{
-    display: "none"
-  },
-
-  statusContainer:{
+  btnCloseWindowVisible: {
     display: "flex",
-    flexDirection: "row"
+  },
+
+  btnCloseWindowHidden: {
+    display: "none",
+  },
+
+  statusContainer: {
+    display: "flex",
+    flexDirection: "row",
   },
 
   infoLineText: {
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 
-  statusLabel:{
-    color: "#fff"
-  }
+  statusLabel: {
+    color: "#fff",
+  },
 });

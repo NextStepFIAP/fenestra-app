@@ -1,4 +1,4 @@
-const uriApiLog = "https://fenestra-api.herokuapp.com/api/Log";
+const uriApiLog = "https://fenestra-api.herokuapp.com/api/log";
 
 export const getLogs = async () => {
   try {

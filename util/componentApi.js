@@ -24,9 +24,10 @@ export const getComponent = async (id) => {
   }
 };
 
-export const addComponent = async (name) => {
+export const addComponent = async (idNumber,name) => {
   let status = 200;
   let data = {
+    id: idNumber,
     name: name,
   };
   try {
