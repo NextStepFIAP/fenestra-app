@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-import {  getUser } from '../util/userApi';
+import {  getUser, updateUser } from '../util/userApi';
 
 
 export default function Login({ route, navigation }) {
@@ -16,7 +16,6 @@ export default function Login({ route, navigation }) {
   const [password, setPassword] = useState("");
 
   const handleEnter = () => {
-
     getUser(email).then(data =>{
       console.log(data)
 

@@ -8,22 +8,34 @@ import {
   View,
 } from "react-native";
 
-import { updateUser } from "../util/userApi";
+import { getUser,updateUser } from "../util/userApi";
 
 export default function Login({ route, navigation }) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleEnter = () => {
-    if (name.length <= 0 || email.length <= 0 || password.length <= 0) {
-      Alert.alert("Erro", "Algum campo está vazio!");
-      return;
-    }
+  const [stage, setStage] = useState("email");
 
-    else{
-      updateUser(email,name,password)
-      navigation.navigate('ScreenMain');
+  const handleEnter = () => {
+    if (stage == "email") {
+      getUser(email).then((data) => {
+        if (data === undefined || data.error) {
+          Alert.alert("Erro", "Email não encontrado!");
+          return;
+        } else {
+          setStage("password");
+        }
+      });
+    } else {
+      updateUser(email, name, password).then((data) => {
+        if (name.length <= 0 || password.length <= 0) {
+          Alert.alert("Erro", "Algum campo está vazio!");
+          return;
+        } else {
+          navigation.navigate("Login");
+        }
+      });
     }
   };
 
@@ -31,32 +43,38 @@ export default function Login({ route, navigation }) {
     <View style={styles.container}>
       <Text style={styles.titlePage}>FENESTRA</Text>
 
+      {stage == "email" ? (
+        <View>
+          <Text style={styles.labelText}>Email:</Text>
+          <TextInput
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            style={styles.input}
+          />
+        </View>
+      ) : stage == "password" ? (
+        <View>
+          <Text style={styles.labelText}>Nome:</Text>
+          <TextInput
+            placeholder="Nome"
+            value={name}
+            onChangeText={setName}
+            style={styles.input}
+          />
+
+          <Text style={styles.labelText}>Senha:</Text>
+          <TextInput
+            placeholder="Senha"
+            value={password}
+            onChangeText={setPassword}
+            style={styles.input}
+          />
+        </View>
+      ) : null}
       <View style={styles.formContainer}>
-        <Text style={styles.labelText}>Nome:</Text>
-        <TextInput
-          placeholder="Nome"
-          value={name}
-          onChangeText={setName}
-          style={styles.input}
-        />
-
-        <Text style={styles.labelText}>Email:</Text>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          style={styles.input}
-        />
-
-        <Text style={styles.labelText}>Senha:</Text>
-        <TextInput
-          placeholder="Senha"
-          value={password}
-          onChangeText={setPassword}
-          style={styles.input}
-        />
         <TouchableOpacity onPress={handleEnter}>
-          <Text style={styles.button}>Cadastrar</Text>
+          <Text style={styles.button}>Recuperar</Text>
         </TouchableOpacity>
       </View>
     </View>

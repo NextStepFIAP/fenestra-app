@@ -13,9 +13,7 @@ export const getUsers = async () => {
 
 export const getUser = async (email) => {
   try {
-    const response = await fetch(
-      `${uriApiUser}/email/${email}`
-    );
+    const response = await fetch(`${uriApiUser}/email/${email}`);
     const json = await response.json();
     return json;
   } catch (error) {
@@ -52,14 +50,18 @@ export const addUser = async (email, username, password) => {
   throw new Error(`Erro ao cadastrar o usuário.\n(Código: ${status})`);
 };
 
-export const updateUser = async (id, username, password) => {
+export const updateUser = async (
+  email,
+  username,
+  password
+) => {
   let data = {
-    id: id,
     name: username,
+    email: email,
     password: password,
   };
   try {
-    const response = await fetch(`${uriApiUser}/${id}`, {
+    const response = await fetch(`${uriApiUser}/email/${email}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -79,10 +81,10 @@ export const deleteUser = async (id) => {
       method: "DELETE",
       headers: {
         Accept: "application/json",
-        'Content-Type': "application/json",
+        "Content-Type": "application/json",
       },
     });
   } catch (error) {
     console.log(error);
   }
-}
+};
