@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Alert,
   StyleSheet,
@@ -8,30 +8,32 @@ import {
   View,
 } from "react-native";
 
-import {  getUser, updateUser } from '../util/userApi';
+import { getUser, updateUser } from "../util/userApi";
 
+import { UserContext } from "../contexts/UserContext";
 
 export default function Login({ route, navigation }) {
+  const context = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleEnter = () => {
-    getUser(email).then(data =>{
-      console.log(data)
+    getUser(email).then((data) => {
+      console.log(data);
 
-      if(data === undefined || data.error){
+      if (data === undefined || data.error) {
         Alert.alert("Erro", "Dados incorretos!");
-        return
+        return;
       }
 
-      if(data.email === email && data.password === password){
-        navigation.navigate("ScreenMain")
-      }
-
-      else{
+      if (data.email === email && data.password === password) {
+        context.setData(data)
+        navigation.navigate("ScreenMain");
+      } else {
         Alert.alert("Erro", "Dados incorretos!");
       }
-    })
+    });
   };
 
   return (

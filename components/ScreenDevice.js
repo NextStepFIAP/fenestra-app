@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Alert,
@@ -16,6 +16,10 @@ import disconnectedImg from "../assets/deviceDisconnected.png";
 import connectedImg from "../assets/deviceConnected.png";
 import connectionImg from "../assets/connection.png";
 
+import { UserContext } from "../contexts/UserContext";
+
+import Swiper from "react-native-swiper/src";
+
 export default function ScreenDevice({ navigation }) {
   const [img, setImg] = useState(magnifierImg);
   const [device, setDevice] = useState(null);
@@ -23,20 +27,20 @@ export default function ScreenDevice({ navigation }) {
   const [stage, setStage] = useState("Pesquisar");
   const [window, setWindow] = useState("Fechar");
 
-  const handleStage = () => {
-    let tempName =
-      Math.random().toString(36).substring(2, 15) +
-      Math.random().toString(36).substring(2, 15);
+  const context = useContext(UserContext);
+  let devices = context.data?.componentes;
 
+  const handleStage = () => {
     switch (stage) {
       case "Pesquisar":
+        console.log(context.data);
+
         getComponents();
         getLogs();
 
         setImg(disconnectedImg);
 
         //configurar um modal pra perguntar o nome do componente e então setar aqui e/ou na função da api
-        setDevice(tempName);
         setStatus("Desconectado");
         setStage("Conectar");
         break;
@@ -48,8 +52,6 @@ export default function ScreenDevice({ navigation }) {
         break;
 
       case "Adicionar":
-        addComponent(tempName);
-
         setImg(connectedImg);
         setStatus("Conectado");
         setStage("Desconectar");
@@ -63,7 +65,7 @@ export default function ScreenDevice({ navigation }) {
         break;
 
       default:
-        console.log("a");
+        console.log("erro");
     }
   };
 
@@ -87,59 +89,125 @@ export default function ScreenDevice({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Image style={styles.img} source={img} />
-      </View>
+    <View>
+      {devices.length ? (
+        devices.map((item, index) => {
+          return (
+            <View style={styles.container} key={index}>
+              <View>
+                <Image style={styles.img} source={img} />
+              </View>
 
-      <View style={styles.containerDeviceInfo}>
-        <View>
-          <Image
-            style={styles.lineBorder}
-            source={require("../assets/lineBorder.png")}
-          />
-        </View>
+              <View style={styles.containerDeviceInfo}>
+                <View>
+                  <Image
+                    style={styles.lineBorder}
+                    source={require("../assets/lineBorder.png")}
+                  />
+                </View>
 
-        <View>
-          <Text style={styles.infoLineText}>
-            Dispositivo: {device ? device : "?"}
-          </Text>
-        </View>
+                <View>
+                  <Text style={styles.infoLineText}>
+                    Dispositivo: {item.name}
+                  </Text>
+                </View>
 
-        <View style={styles.statusContainer}>
-          <Text style={styles.statusLabel}>Status: </Text>
-          <Text
-            style={
-              ([styles.infoLineText],
-              status == "Desconectado"
-                ? { color: "#000" }
-                : status == "Disponível"
-                ? { color: "#fff", fontWeight: "700" }
-                : status == "Conectado"
-                ? { color: "#E2C792", fontWeight: "700" }
-                : null)
-            }
+                <View style={styles.statusContainer}>
+                  <Text style={styles.statusLabel}>Status: </Text>
+                  <Text
+                    style={
+                      ([styles.infoLineText],
+                      status == "Desconectado"
+                        ? { color: "#000" }
+                        : status == "Disponível"
+                        ? { color: "#fff", fontWeight: "700" }
+                        : status == "Conectado"
+                        ? { color: "#E2C792", fontWeight: "700" }
+                        : null)
+                    }
+                  >
+                    {status ? status : "Não encontrado"}.
+                  </Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                onPress={handleStage}
+                style={styles.btnMainAction}
+              >
+                <Text style={styles.btnMainActionText}>{stage}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={handleCloseWindow}
+                style={[
+                  styles.btnCloseWindow,
+                  status == "Conectado"
+                    ? styles.btnCloseWindowVisible
+                    : styles.btnCloseWindowHidden,
+                ]}
+              >
+                <Text style={styles.btnCloseWindowText}>{window} Janela</Text>
+              </TouchableOpacity>
+            </View>
+          );
+        })
+      ) : (
+        <View style={styles.container}>
+          <View>
+            <Image style={styles.img} source={img} />
+          </View>
+
+          <View style={styles.containerDeviceInfo}>
+            <View>
+              <Image
+                style={styles.lineBorder}
+                source={require("../assets/lineBorder.png")}
+              />
+            </View>
+
+            <View>
+              <Text style={styles.infoLineText}>
+                Dispositivo: {device ? device : "?"}
+              </Text>
+            </View>
+
+            <View style={styles.statusContainer}>
+              <Text style={styles.statusLabel}>Status: </Text>
+              <Text
+                style={
+                  ([styles.infoLineText],
+                  status == "Desconectado"
+                    ? { color: "#000" }
+                    : status == "Disponível"
+                    ? { color: "#fff", fontWeight: "700" }
+                    : status == "Conectado"
+                    ? { color: "#E2C792", fontWeight: "700" }
+                    : null)
+                }
+              >
+                {status ? status : "Não encontrado"}.
+              </Text>
+            </View>
+          </View>
+
+          <TouchableOpacity onPress={handleStage} style={styles.btnMainAction}>
+            <Text style={styles.btnMainActionText}>{stage}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={handleCloseWindow}
+            style={[
+              styles.btnCloseWindow,
+              status == "Conectado"
+                ? styles.btnCloseWindowVisible
+                : styles.btnCloseWindowHidden,
+            ]}
           >
-            {status ? status : "Não encontrado"}.
-          </Text>
+            <Text style={styles.btnCloseWindowText}>{window} Janela</Text>
+          </TouchableOpacity>
         </View>
-      </View>
-
-      <TouchableOpacity onPress={handleStage} style={styles.btnMainAction}>
-        <Text style={styles.btnMainActionText}>{stage}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={handleCloseWindow}
-        style={[
-          styles.btnCloseWindow,
-          status == "Conectado"
-            ? styles.btnCloseWindowVisible
-            : styles.btnCloseWindowHidden,
-        ]}
-      >
-        <Text style={styles.btnCloseWindowText}>{window} Janela</Text>
-      </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -147,6 +215,7 @@ export default function ScreenDevice({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: "100%",
     backgroundColor: "#50505a",
     alignItems: "center",
     padding: 16,
