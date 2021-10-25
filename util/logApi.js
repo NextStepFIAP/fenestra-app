@@ -24,11 +24,14 @@ export const getLog = async (id) => {
   }
 };
 
-export const addLog = async (date, description) => {
+export const addLog = async (date, description,deviceId) => {
   let status = 200;
   let data = {
     dateRegistro: date,
-    description: description
+    description: description,
+    componente:{
+      id: deviceId
+    }
   };
   try {
     const response = await fetch(uriApiLog, {

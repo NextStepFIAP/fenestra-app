@@ -24,11 +24,13 @@ export const getComponent = async (id) => {
   }
 };
 
-export const addComponent = async (idNumber,name) => {
+export const addComponent = async (name, idUser) => {
   let status = 200;
   let data = {
-    id: idNumber,
     name: name,
+    user:{
+      id: idUser
+    }
   };
   try {
     const response = await fetch(uriApiComponent, {
@@ -52,7 +54,7 @@ export const addComponent = async (idNumber,name) => {
   throw new Error(`Erro ao cadastrar o componente.\n(Código: ${status})`);
 };
 
-export const updateComponent = async (name) => {
+export const updateComponent = async (id,name) => {
   let data = {
     name: name,
   };

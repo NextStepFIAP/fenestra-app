@@ -41,10 +41,10 @@ export default function Login({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titlePage}>FENESTRA</Text>
 
       {stage == "email" ? (
         <View>
+          <Text style={styles.titlePage}>FENESTRA</Text>
           <Text style={styles.labelText}>Email:</Text>
           <TextInput
             placeholder="Email"
@@ -55,6 +55,7 @@ export default function Login({ route, navigation }) {
         </View>
       ) : stage == "password" ? (
         <View>
+          <Text style={styles.titlePage}>FENESTRA</Text>
           <Text style={styles.labelText}>Nome:</Text>
           <TextInput
             placeholder="Nome"

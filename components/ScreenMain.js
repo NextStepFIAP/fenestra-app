@@ -1,22 +1,21 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-export default function ScreenMain({route, navigation}) {
-  // const { user } = route.params;
-
-  // console.log(route.params)
+export default function ScreenMain({ route, navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.titlePage}>FENESTRA</Text>
 
       <View style={styles.containerButtons}>
-        <TouchableOpacity style={styles.redirectButton}
+        <TouchableOpacity
+          style={styles.redirectButton}
           onPress={() => navigation.navigate("ScreenDevice")}
         >
           <Text style={styles.redirectButtonText}>Listar Dispositivos</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.redirectButton}
+        <TouchableOpacity
+          style={styles.redirectButton}
           onPress={() => navigation.navigate("ScreenRoutine")}
         >
           <Text style={styles.redirectButtonText}>Rotinas</Text>
@@ -25,10 +24,12 @@ export default function ScreenMain({route, navigation}) {
         <TouchableOpacity style={styles.redirectButton}>
           <Text style={styles.redirectButtonText}>Ajuda</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.redirectButton} onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity
+          style={styles.redirectButton}
+          onPress={() => navigation.navigate("Login")}
+        >
           <Text style={styles.redirectButtonText}>Sair</Text>
         </TouchableOpacity>
-
       </View>
     </View>
   );
