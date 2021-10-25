@@ -177,7 +177,7 @@ export default function ScreenDevice({ navigation }) {
               return (
                 <View style={styles.container} key={index}>
                   <View>
-                    <Image style={styles.img} source={img} />
+                    <Image style={styles.img} source={img}/>
                   </View>
 
                   <View style={styles.containerDeviceInfo}>
